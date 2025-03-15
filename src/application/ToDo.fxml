@@ -52,7 +52,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -117,10 +117,10 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="136.0" prefWidth="147.0" text="DO: &#10;Tasks with deadlines or &#10;consequences." textAlignment="CENTER" />
-                        <Button mnemonicParsing="false" prefHeight="136.0" prefWidth="147.0" text="SCHEDULE:&#10;Tasks with unclear&#10;deadlines that contribute &#10;to long-term success." textAlignment="CENTER" GridPane.columnIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="136.0" prefWidth="147.0" text="DELEGATE:&#10;Tasks that must get&#10;done but don't require &#10;your specific skill set." textAlignment="CENTER" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="136.0" prefWidth="147.0" text="DELETE:&#10;Distractions&#10;and unnecessary &#10;tasks. " textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Button fx:id="Task1" mnemonicParsing="false" onAction="#handleTaskSelection" prefHeight="136.0" prefWidth="147.0" text="DO: &#10;Tasks with deadlines or &#10;consequences." textAlignment="CENTER" />
+                        <Button fx:id="Task2" mnemonicParsing="false" onAction="#handleTaskSelection" prefHeight="136.0" prefWidth="147.0" text="SCHEDULE:&#10;Tasks with unclear&#10;deadlines that contribute &#10;to long-term success." textAlignment="CENTER" GridPane.columnIndex="1" />
+                        <Button fx:id="Task3" mnemonicParsing="false" onAction="#handleTaskSelection" prefHeight="136.0" prefWidth="147.0" text="DELEGATE:&#10;Tasks that must get&#10;done but don't require &#10;your specific skill set." textAlignment="CENTER" GridPane.rowIndex="1" />
+                        <Button fx:id="Task4" mnemonicParsing="false" onAction="#handleTaskSelection" prefHeight="136.0" prefWidth="147.0" text="DELETE:&#10;Distractions&#10;and unnecessary &#10;tasks. " textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <Label alignment="CENTER" layoutX="122.0" layoutY="49.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Urgent" textAlignment="CENTER" wrapText="false">
@@ -148,11 +148,11 @@
                         <Font size="24.0" fx:id="x51" />
                      </font>
                   </Label>
-                  <Button layoutX="178.0" layoutY="524.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="106.0" text="SUBMIT" />
+                  <Button fx:id="SubmitButton" layoutX="178.0" layoutY="524.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="106.0" text="SUBMIT" />
             <Label alignment="CENTER" layoutX="23.0" layoutY="418.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Description" textAlignment="CENTER" wrapText="false" />
-                  <TextField layoutX="85.0" layoutY="355.0" prefHeight="25.0" prefWidth="291.0" />
-                  <TextArea layoutX="86.0" layoutY="418.0" prefHeight="102.0" prefWidth="291.0" />
-                  <TextField layoutX="86.0" layoutY="387.0" prefHeight="25.0" prefWidth="291.0" />
+                  <TextField fx:id="TaskName" layoutX="85.0" layoutY="355.0" prefHeight="25.0" prefWidth="291.0" />
+                  <TextArea fx:id="TaskDescription" layoutX="86.0" layoutY="418.0" prefHeight="102.0" prefWidth="291.0" />
+                  <TextField fx:id="MinsReq" layoutX="86.0" layoutY="387.0" prefHeight="25.0" prefWidth="291.0" />
                   <Label alignment="CENTER" layoutX="6.0" layoutY="387.0" minWidth="60.0" prefHeight="25.0" prefWidth="80.0" style="&#10;" text="Minutes Req'd" textAlignment="CENTER" wrapText="false" />
                   <Label alignment="CENTER" layoutX="23.0" layoutY="359.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Task Name" textAlignment="CENTER" wrapText="false" />
           </children>

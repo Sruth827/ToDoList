@@ -36,7 +36,8 @@ public class TaskCellFactory implements Callback<ListView<Task>, ListCell<Task>>
                     
                     if(this.isSelected()) {
                     	setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-style: italic");
-                    }
+                    } 
+                  
                 }
             }
         };

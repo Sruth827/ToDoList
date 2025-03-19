@@ -42,6 +42,8 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
@@ -49,6 +51,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -64,7 +67,7 @@
             <Menu mnemonicParsing="false" text="Open Recent" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#save_Load" text="Save" />
             <MenuItem mnemonicParsing="false" text="Save As…" />
             <MenuItem mnemonicParsing="false" text="Revert" />
             <SeparatorMenuItem mnemonicParsing="false" />
@@ -103,10 +106,35 @@
                         <Font name="Segoe UI Bold" size="24.0" fx:id="x5" />
                      </font>
                   </Label>
-                  <ListView fx:id="TaskList" editable="true" layoutX="42.0" layoutY="76.0" prefHeight="447.0" prefWidth="347.0" />
                   <Button fx:id="TaskCompleteButton1" layoutX="283.0" layoutY="523.0" mnemonicParsing="false" onAction="#deleteTask" prefHeight="27.0" prefWidth="106.0" text="Task Complete!" />
                   <Button fx:id="EditTaskButton1" layoutX="42.0" layoutY="523.0" mnemonicParsing="false" onAction="#editTask" prefHeight="27.0" prefWidth="106.0" text="Edit Task" />
                   <ProgressBar fx:id="updateProgress" layoutX="116.0" layoutY="49.0" prefWidth="200.0" progress="0.0" />
+                  <Pane layoutX="26.0" layoutY="76.0" prefHeight="447.0" prefWidth="379.0">
+                     <children>
+                        <TabPane prefHeight="438.0" prefWidth="379.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab fx:id="actionItemsTab" text="Action Items">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <ListView fx:id="TaskList" editable="true" prefHeight="412.0" prefWidth="379.0" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab fx:id="completedTab" text="Completed">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <ListView fx:id="CompletedList" editable="true" prefHeight="412.0" prefWidth="379.0" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                          </tabs>
+                        </TabPane>
+                     </children>
+                  </Pane>
           </children>
         </AnchorPane>
         <AnchorPane style="-fx-background-color: LIGHTGREY;">

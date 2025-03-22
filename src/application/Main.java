@@ -11,11 +11,9 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			FXMLLoader loader = FXMLLoader.load(getClass().getResource("ToDo.fxml"));
-			
-			TaskManager taskManager = new TaskManager(); 
+		
 			
 			MyController controller = new MyController(); 
-			controller.setTaskSelectionListener(taskManager);
 			loader.setController(controller);
 			
 			VBox root = loader.load();

@@ -15,11 +15,15 @@ import javafx.collections.transformation.SortedList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.VBox;
 
 public class MyController {
 	private final String saveLocation = System.getenv("C:\todosave");
@@ -33,6 +37,14 @@ public class MyController {
 	private DoubleProperty progressCompleted = new SimpleDoubleProperty(0);
 	@FXML
 	final ToggleGroup MatrixButtons = new ToggleGroup(); 
+	
+	@FXML 
+	MenuBar menuBar = new MenuBar();
+	@FXML 
+	final Menu menu1 = new Menu("File");
+	@FXML
+	MenuItem saveButton = new MenuItem("Save");
+	
 	@FXML
 	TextField TaskName = new TextField(); 
 	@FXML 
@@ -41,8 +53,7 @@ public class MyController {
 	TextField MinsReq = new TextField(); 
 	@FXML
 	Button submitButton = new Button();
-	@FXML 
-	Button saveButton = new Button();
+	
 	@FXML
 	ToggleButton matrixToggle1 = new ToggleButton(); 
 	@FXML
@@ -68,6 +79,9 @@ public class MyController {
 		if (save == null) {
 	        save = new File("tasks.txt"); 
 	    }
+		menuBar.getMenus().add(menu1);
+		//menu1.getItems().add(saveButton);
+		
 		//ToggleGroup for exclusive selection of priority 
 		matrixToggle1.setToggleGroup(MatrixButtons); 
 		matrixToggle2.setToggleGroup(MatrixButtons);

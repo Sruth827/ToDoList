@@ -16,20 +16,19 @@ public class TaskCellFactory implements Callback<ListView<Task>, ListCell<Task>>
                     setStyle(null);
                 } else {
                     // Set task details
-                    setText(task.getName() + " / " + task.getMinutesRequired() + " / " + task.getDescription());
-
+                    setText(task.getTaskType() + ": " + task.getName() + " / " + task.getMinutesRequired() + " / " + task.getDescription());
                     // Apply styles based on task priority
-                    switch (task.getTaskPriority()) {
-                        case 1:
+                    switch (task.getTaskType()) {
+                        case DO:
                             setStyle("-fx-background-color: lightgreen; -fx-font-weight: bold" );
                             break;
-                        case 2:
+                        case SCHEDULE:
                             setStyle("-fx-background-color: yellow;  -fx-font-weight: bold");
                             break;
-                        case 3:
+                        case DELEGATE:
                             setStyle("-fx-background-color: orange;  -fx-font-weight: bold");
                             break;
-                        default:
+                        case DELETE:
                             setStyle("-fx-background-color: red;  -fx-font-weight: bold");
                             break;
                     }

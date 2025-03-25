@@ -56,7 +56,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MyController">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MyController">
   <children>
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
       <menus>
@@ -149,7 +149,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ToggleButton fx:id="matrixToggle1" contentDisplay="CENTER" mnemonicParsing="false" onAction="#setDoTaskID" prefHeight="176.0" prefWidth="169.0" style="-fx-border-color: LIGHTGREEN;" text="DO:  &#10;Tasks with &#10;deadlines or &#10;consequences." textAlignment="CENTER" userData="1">
+                        <ToggleButton fx:id="matrixToggle1" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="176.0" prefWidth="169.0" style="-fx-border-color: LIGHTGREEN;" text="DO:  &#10;Tasks with &#10;deadlines or &#10;consequences." textAlignment="CENTER" userData="1">
                            <toggleGroup>
                               <ToggleGroup fx:id="MatrixButtons" />
                            </toggleGroup>
@@ -160,15 +160,15 @@
                               <Insets />
                            </GridPane.margin>
                         </ToggleButton>
-                        <ToggleButton fx:id="matrixToggle2" mnemonicParsing="false" onAction="#setScheduleTaskID" prefHeight="172.0" prefWidth="185.0" style="-fx-border-color: YELLOW;" text="SCHEDULE:&#10;Tasks with unclear&#10;deadlines that &#10;contribute &#10;to long-term &#10;success." textAlignment="CENTER" toggleGroup="$MatrixButtons" userData="2" GridPane.columnIndex="1">
+                        <ToggleButton fx:id="matrixToggle2" mnemonicParsing="false" prefHeight="172.0" prefWidth="185.0" style="-fx-border-color: YELLOW;" text="SCHEDULE:&#10;Tasks with unclear&#10;deadlines that &#10;contribute &#10;to long-term &#10;success." textAlignment="CENTER" toggleGroup="$MatrixButtons" userData="2" GridPane.columnIndex="1">
                            <font>
                               <Font name="Segoe UI Bold" size="14.0" />
                            </font></ToggleButton>
-                        <ToggleButton fx:id="matrixToggle3" mnemonicParsing="false" onAction="#setDelegateTaskID" prefHeight="154.0" prefWidth="182.0" text="DELEGATE:&#10;Tasks that must &#10;get done but &#10;don't require &#10;your specific &#10;skill set." textAlignment="CENTER" toggleGroup="$MatrixButtons" userData="3" GridPane.rowIndex="1">
+                        <ToggleButton fx:id="matrixToggle3" mnemonicParsing="false" prefHeight="154.0" prefWidth="182.0" text="DELEGATE:&#10;Tasks that must &#10;get done but &#10;don't require &#10;your specific &#10;skill set." textAlignment="CENTER" toggleGroup="$MatrixButtons" userData="3" GridPane.rowIndex="1">
                            <font>
                               <Font name="Segoe UI Bold" size="14.0" />
                            </font></ToggleButton>
-                        <ToggleButton fx:id="matrixToggle4" mnemonicParsing="false" onAction="#setDeleteTaskID" prefHeight="147.0" prefWidth="194.0" text="DELETE:&#10;Distractions&#10;and unnecessary &#10;tasks. " textAlignment="CENTER" toggleGroup="$MatrixButtons" userData="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <ToggleButton fx:id="matrixToggle4" mnemonicParsing="false" prefHeight="147.0" prefWidth="194.0" text="DELETE:&#10;Distractions&#10;and unnecessary &#10;tasks. " textAlignment="CENTER" toggleGroup="$MatrixButtons" userData="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font name="Segoe UI Bold" size="14.0" />
                            </font></ToggleButton>

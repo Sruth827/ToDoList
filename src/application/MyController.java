@@ -1,17 +1,18 @@
 package application;
 
-import javafx.fxml.FXML;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -23,20 +24,21 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.VBox;
 
 public class MyController {
-	private final String saveLocation = System.getenv("C:\todosave");
+	public enum AlertState {CONFIRMATION, WARNING_SEL, WARNING_DEL, WARNING_NUM, INFORMATION} ;
+	public enum TaskType {DO, SCHEDULE, DELEGATE, DELETE};
+	private final Map<ToggleButton, TaskType> buttonPriorityMap = new HashMap<>();
+
+	//private final String saveLocation = System.getenv("C:\todosave");
 	private File save;
 	private String inputName;
 	private String inputDescript;
 	private Integer minutes;
-	private Integer taskID; 
 	private Task newTask;
-	private Byte alertState;
 	private DoubleProperty progressCompleted = new SimpleDoubleProperty(0);
-	@FXML
-	final ToggleGroup MatrixButtons = new ToggleGroup(); 
+	
+	
 	
 	@FXML 
 	MenuBar menuBar = new MenuBar();
@@ -54,6 +56,8 @@ public class MyController {
 	@FXML
 	Button submitButton = new Button();
 	
+	@FXML
+	final ToggleGroup MatrixButtons = new ToggleGroup(); 
 	@FXML
 	ToggleButton matrixToggle1 = new ToggleButton(); 
 	@FXML
@@ -75,7 +79,6 @@ public class MyController {
 	
 	@FXML
 	public void initialize() {
-		this.alertState = 0;
 		if (save == null) {
 	        save = new File("tasks.txt"); 
 	    }
@@ -88,8 +91,15 @@ public class MyController {
 		matrixToggle3.setToggleGroup(MatrixButtons);
 		matrixToggle4.setToggleGroup(MatrixButtons);
 		
+		buttonPriorityMap.put(matrixToggle1, TaskType.DO);
+	    buttonPriorityMap.put(matrixToggle2, TaskType.SCHEDULE);
+	    buttonPriorityMap.put(matrixToggle3, TaskType.DELEGATE);
+	    buttonPriorityMap.put(matrixToggle4, TaskType.DELETE);
+		
+		
 		updateProgress.progressProperty().bind(progressCompleted);
 		updateProgress.setStyle("-fx-accent: blue");
+		
 		
 		//Visual update of toggle buttons on eisenhower matrix for task priority selected
 		MatrixButtons.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
@@ -121,7 +131,7 @@ public class MyController {
 	            	matrixToggle4.setStyle(null);
 	            }
 	    	});
-		
+			
 		//Create the sorted list object
 		taskObservableList = FXCollections.observableArrayList(); 
 		SortedList<Task> sortedList = new SortedList<>(taskObservableList);
@@ -130,7 +140,7 @@ public class MyController {
 		
 		//Sort tasks in order of priority and then by time required 
 		sortedList.setComparator((task1, task2) -> {
-			int priorityComparison = task1.getTaskPriority().compareTo(task2.getTaskPriority());
+			int priorityComparison = task1.getTaskType().compareTo(task2.getTaskType());
 			if(priorityComparison != 0) {
 				return priorityComparison;
 			}
@@ -146,30 +156,13 @@ public class MyController {
 		
 	}
 	
-	@FXML
-    public void setDoTaskID() {
-        taskID = 1; // Task ID for "Do"
-        
-        System.out.println("TaskID set to: " + taskID);
-    }
-
-    @FXML
-    public void setScheduleTaskID() {
-        taskID = 2; // Task ID for "Delegate"
-        System.out.println("TaskID set to: " + taskID);
-    }
-
-    @FXML
-    public void setDelegateTaskID() {
-        taskID = 3; // Task ID for "Defer"
-        System.out.println("TaskID set to: " + taskID);
-    }
-
-    @FXML
-    public void setDeleteTaskID() {
-        taskID = 4; // Task ID for "Delete"
-        System.out.println("TaskID set to: " + taskID);
-    }
+	private void resetToggles() {
+	    matrixToggle1.setStyle(null);
+	    matrixToggle2.setStyle(null);
+	    matrixToggle3.setStyle(null);
+	    matrixToggle4.setStyle(null);
+	    MatrixButtons.selectToggle(null);
+	}
 	  
 	@FXML
 	public void submitTask() {
@@ -181,21 +174,27 @@ public class MyController {
 	        this.minutes = Integer.parseInt(MinsReq.getText());
 	    } catch (NumberFormatException e) {
 	        System.out.println("Error: Invalid input for minutes. Please enter a valid number.");
+	        sendAlert(AlertState.WARNING_NUM);
 	        return;
 	    } 
 		
 	    //creation of submitted task
-	    this.newTask = TaskFactory.createTask(inputName, inputDescript, minutes, taskID);
+	    ToggleButton selectedButton = (ToggleButton) MatrixButtons.getSelectedToggle();
+	    if (selectedButton == null) {
+	        sendAlert(AlertState.WARNING_SEL); // Alert user to select a priority
+	        return;
+	    }
+	    TaskType selectedTask = buttonPriorityMap.get(selectedButton);
+
+	    
+	    this.newTask = TaskFactory.createTask(inputName, inputDescript, minutes, selectedTask);
 	    
 	    //task submitted to ListView for sorting and dispay
 		taskObservableList.add(newTask);
-		
+		System.out.println(newTask);
 		//reset toggles after submit
-		matrixToggle1.setStyle(null);
-    	matrixToggle2.setStyle(null);
-    	matrixToggle3.setStyle(null);
-    	matrixToggle4.setStyle(null);
-    	MatrixButtons.selectToggle(null);
+		resetToggles();
+		
 		
 	}
 
@@ -208,11 +207,11 @@ public class MyController {
 			completedObservableList.add(selectedTask);
 			taskObservableList.remove(selectedTask);
 			TaskList.getSelectionModel().clearSelection();
-			sendAlert(alertState = 1); //update alertState and pass to function to send Alert corresponding with alert needed
+			sendAlert(AlertState.CONFIRMATION); //update alertState and pass to function to send Alert corresponding with alert needed
 			System.out.println("Deleted task " + selectedTask.getName());
 			updateProgress(progressCompleted);
 		} else {
-			sendAlert(alertState = 2);
+			sendAlert(AlertState.WARNING_DEL);
 			
 		}
 	}
@@ -229,38 +228,56 @@ public class MyController {
 			TaskDescription.setText(selectedTask.getDescription());
 			MinsReq.setText(null);
 			TaskList.getSelectionModel().clearSelection();
-			sendAlert(alertState = 3);
+			sendAlert(AlertState.INFORMATION);
 		} else {
-			sendAlert(alertState = 2); //update alertState and pass to function to send Alert corresponding with alert needed
+			sendAlert(AlertState.WARNING_SEL); //update alertState and pass to function to send Alert corresponding with alert needed
 		}
 	}
 
 	
 	public void updateProgress(DoubleProperty progressCompleted) {
 		//update percentage of progress bar when tasks are completed
-		progressCompleted.set(progressCompleted.get() + 0.05);
+		//progressCompleted.set(progressCompleted.get() + 0.05);
+		int totalTasks = taskObservableList.size() + completedObservableList.size();
+	    if (totalTasks > 0) {
+	        progressCompleted.set((double) completedObservableList.size() / totalTasks);
+	    }
 		System.out.println(progressCompleted);
 		
 	}
 	
-	public void sendAlert(Byte alertState) {
+	public void sendAlert(AlertState alertState) {
 		Alert alert;
 		switch(alertState) {
-			case 1:
+			case CONFIRMATION:
 				alert = new Alert(Alert.AlertType.CONFIRMATION);
 				alert.setTitle("GREAT WORK"); 
 				alert.setHeaderText(null);
 				alert.setContentText("Great Job! You're getting things done!");
 				alert.show();
 				break;
-			case 2:
+			case WARNING_SEL:
+				alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("No Selection"); 
+				alert.setHeaderText(null);
+				alert.setContentText("Please select a task to edit.");
+				alert.showAndWait();
+				break;
+			case WARNING_DEL:
 				alert = new Alert(Alert.AlertType.WARNING);
 				alert.setTitle("No Selection"); 
 				alert.setHeaderText(null);
 				alert.setContentText("Please select a task to delete.");
 				alert.showAndWait();
 				break;
-			case 3:
+			case WARNING_NUM:
+				alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("No Selection"); 
+				alert.setHeaderText(null);
+				alert.setContentText("Error: Invalid input for minutes. Please enter a valid number.");
+				alert.showAndWait();
+				break;
+			case INFORMATION:
 				alert = new Alert(Alert.AlertType.INFORMATION);
 				alert.setTitle("Edit selection");
 				alert.setHeaderText(null);
@@ -314,7 +331,7 @@ public class MyController {
 	    }
 	}
 
-	// Helper method to parse a String into a Task object
+	//Helper method to parse a String into a Task object
 	private Task parseTask(String line) {
 	    // Example parsing logic
 	    String[] parts = line.split(", ");
@@ -325,18 +342,20 @@ public class MyController {
 	    
 	    switch (taskPriority) {
 	        case 1:
-	            return new DoTaskItem(name, description, minutesRequired);
+	            return new DoTaskItem(name, description, minutesRequired, null);
 	        case 2:
-	            return new ScheduleTaskItem(name, description, minutesRequired);
+	            return new ScheduleTaskItem(name, description, minutesRequired, null);
 	        case 3:
-	            return new DelegateTaskItem(name, description, minutesRequired);
+	            return new DelegateTaskItem(name, description, minutesRequired, null);
 	        case 4:
-	            return new DeleteTaskItem(name, description, minutesRequired);
+	            return new DeleteTaskItem(name, description, minutesRequired, null);
 	        default:
 	            throw new IllegalArgumentException("Invalid taskPriority: " + taskPriority);
 	    }
 	}
+	
 }
+
 	
 
 	
